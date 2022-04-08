@@ -14,6 +14,9 @@ const sequelize = new Sequelize(URI, {
 
 setupModels(sequelize);
 
-sequelize.sync()
+sequelize.sync({ force: true })
+  .then(() => {
+    console.log(`base de datos creada/actualizada`);
+  });
 
 module.exports = sequelize

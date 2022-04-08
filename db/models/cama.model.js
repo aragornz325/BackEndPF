@@ -3,21 +3,33 @@ const {Model, DataTypes, Sequelize} = require('sequelize')
 const CAMA_TABLE = 'camas';
 
 const CamaSchema = {
-  id: {
-    allownull: false,
+  id:{
+    type:DataTypes.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: false,
     primaryKey: true,
-    type: DataTypes.UUID,     
-    defaultValue: DataTypes.UUIDV4,
   },
   precio: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    type: DataTypes.DECIMAL(20, 2)
   },
-  createdAt: {
+
+  checkIn:{
+    type: DataTypes.DATEONLY,
+    defaultValue: null,
+  },
+  checkOut:{
+    type: DataTypes.DATEONLY,
+    defaultValue: null,
+  },
+  FechaReserva:{
+    type: DataTypes.DATEONLY,
+    defaultValue: null,
+  },
+  EstadoReserva:{
+    type: DataTypes.ENUM('reservada', 'cancelada', 'ocupada'),
     allowNull: false,
-    type: DataTypes.DATE,
-    field: 'create_at',
-    defaultValue: Sequelize.NOW
+    defaultValue: 'reservada',
   }
 }
 

@@ -30,7 +30,7 @@ class Rol extends Model {
     return {
       sequelize,
       tableName: ROL_TABLE,
-      modelName: 'Cama',
+      modelName: 'Roles',
       timestamps: false
     }
   }

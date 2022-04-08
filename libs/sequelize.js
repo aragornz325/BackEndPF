@@ -15,7 +15,6 @@ setupModels(sequelize);
 const {Usuario, Habitacion, Huesped, Reserva, Cama} = sequelize.models;
 console.log(sequelize.models)
 
-
 // relacion habitacion-camas 1 a muchos muchos a 1
 //  una habitacion tiene muchas camas
 // una cama pertenece a una habitacion
@@ -51,7 +50,9 @@ Cama.belongsToMany(Reserva, { through: 'Reserva-Cama' });
 Reserva.belongsToMany(Cama, { through: 'Reserva-Cama' });
 
 
-sequelize.sync({ force: true })
+
+sequelize.sync({ force: false })
+
   .then(() => {
     console.log(`base de datos creada/actualizada`);
   })

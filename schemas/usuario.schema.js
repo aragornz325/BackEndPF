@@ -1,11 +1,12 @@
 const Joi = require('joi');
 
-// const id = Joi.number().integer();
+
+
+const dni = Joi.number().integer()
 const email = Joi.string().email();
 const password = Joi.string().min(8).max(14);
 const nombre = Joi.string().min(4);
 const apellido = Joi.string().min(3);
-const dni = Joi.number().integer()
 const tipoUsuario = Joi.string();
 
 const createUserSchema = Joi.object({

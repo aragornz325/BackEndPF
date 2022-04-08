@@ -3,12 +3,12 @@ const {Model, DataTypes, Sequelize} = require('sequelize')
 const USUARIO_TABLE = 'usuarios';
 
 const UsuarioSchema = {
+
   dni: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     unique: true,
-    allowNull: false,
-  },
+  
   nombre: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -17,6 +17,7 @@ const UsuarioSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   },
+
   fechaNacimiento: {
     type: DataTypes.DATEONLY,
     field: 'fecha_nacimiento',

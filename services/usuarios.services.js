@@ -7,7 +7,8 @@ class UserService {
   constructor() {}
 
   async create(data) {
-    return data;
+    const nuevoUsuario = await models.Usuario.create(data)
+    return nuevoUsuario;
   }
 
   async find() {
@@ -18,17 +19,24 @@ class UserService {
   }
 
   async findOne(id) {
-    return { id };
+    const usuario = await models.usuario.findByPk(id);
+    if (!usuario) {
+      throw boom.notFound('el usuario solicitado no existe')
+    }
+    return usuario;
   }
 
   async update(id, changes) {
+    const usuario = await this.findOne(id)
+    const respuesta = await usuario.update(changes);
     return {
-      id,
-      changes,
+      respuesta
     };
   }
 
   async delete(id) {
+    const usuario = await this.findOne(id)
+    await usuario.destroy();
     return { id };
   }
 }

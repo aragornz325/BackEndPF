@@ -6,38 +6,39 @@ const { models } = require('./../libs/sequelize')
 class UserService {
   constructor() {}
 
-  async create(data) {
+  async crear(data) {
     const nuevoUsuario = await models.Usuario.create(data)
     return nuevoUsuario;
   }
 
-  async find() {
+  async buscar() {
     const rta = await models.Usuario.findAll();
     //const rta = await client.query('SELECT * FROM roles'); consulta con sql-node
     //return rta.rows;
     return rta
   }
 
-  async findOne(id) {
-    const usuario = await models.usuario.findByPk(id);
+  async buscaruno(dni) {
+    console.log('esto es dni en buscaruno ------->', dni)
+    const usuario = await models.usuario.findByPk(dni);
     if (!usuario) {
       throw boom.notFound('el usuario solicitado no existe')
     }
     return usuario;
   }
 
-  async update(id, changes) {
-    const usuario = await this.findOne(id)
+  async actualizar(dni, changes) {
+    const usuario = await this.findOne(dni)
     const respuesta = await usuario.update(changes);
     return {
       respuesta
     };
   }
 
-  async delete(id) {
-    const usuario = await this.findOne(id)
+  async borrar(dni) {
+    const usuario = await this.findOne(dni)
     await usuario.destroy();
-    return { id };
+    return { dni };
   }
 }
 

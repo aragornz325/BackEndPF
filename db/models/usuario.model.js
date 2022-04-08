@@ -3,39 +3,48 @@ const {Model, DataTypes, Sequelize} = require('sequelize')
 const USUARIO_TABLE = 'usuarios';
 
 const UsuarioSchema = {
-  // id: {
-  //   allownull: false,
-  //   primaryKey: true,        /*se puede cambiar pero siempre al crear hay que mandar el dni*/
-  //   type: DataTypes.UUID,     /* ver el tema del DNI... no se si esta bien que sea el ID*/
-  //   defaultValue: DataTypes.UUIDV4,  
-  // },
 
   dni: {
-    allowNull: false,
     type: DataTypes.INTEGER,
     primaryKey: true,
-    unique: true, 
-  },
-  password: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
+    unique: true,
+  
   nombre: {
-    allowNull: false,
     type: DataTypes.STRING,
+    allowNull: false,
   },
   apellido: {
-    allowNull: false,
     type: DataTypes.STRING,
-  },
-  email: {
     allowNull: false,
+  },
+
+  fechaNacimiento: {
+    type: DataTypes.DATEONLY,
+    field: 'fecha_nacimiento',
+    allowNull: false,
+  },
+  Telefono:{
+    type: DataTypes.INTEGER,
+  },
+  NombreUsuario:{
     type: DataTypes.STRING,
     unique: true,
   },
-  tipoUsuario: {
-    allowNull: false,
+  email: {
     type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true,
+    },
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  tipoUsuario: {
+    type: DataTypes.ENUM('admin', 'cliente'),
+    allowNull: false,
     field: 'tipo_usuario',
   },
   createdAt: {

@@ -3,7 +3,7 @@ const { Habitacion, HabitacionSchema} = require('./habitacion.model');
 const { Huesped, HuespedSchema} = require('./huesped.model');
 const { ReservaCama, ReservaCamaSchema} = require('./reservaCama.model');
 const { Cama, CamaSchema} = require('./cama.model')
-const { Rol, RolSchema} = require('./rol.model')
+const { Rol, RolSchema} = require('./rol.model');
 
 function setupModels(sequelize) {
   Usuario.init(UsuarioSchema, Usuario.config(sequelize));

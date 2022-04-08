@@ -4,29 +4,29 @@ const RESERVACAMA_TABLE = 'reservas';
 
 const ReservaCamaSchema = {
   id: {
-    allownull: false,
-    primaryKey: true,
     type: DataTypes.UUID,     
     defaultValue: DataTypes.UUIDV4,
+    allownull: false,
+    primaryKey: true,
   },
   fechaReserva: {
-    allowNull: false,
     type: DataTypes.DATE,
+    allowNull: false,
     field: 'fecha_reserva',
   },
   CheckIn:{
-    allowNull: false,
     type: DataTypes.DATE,
+    allowNull: false,
     field: 'check_in',
   },
   CheckOut:{
-    allowNull: false,
     type: DataTypes.DATE,
+    allowNull: false,
     field: 'check_out',
   },
   estado:{
+    type: DataTypes.ENUM('reservada', 'cancelada', 'ocupada'),
     allowNull: false,  
-    type: DataTypes.STRING,
   },
 }
 
@@ -39,7 +39,7 @@ class ReservaCama extends Model {
     return {
       sequelize,
       tableName: RESERVACAMA_TABLE,
-      modelName: 'reserva_cama',
+      modelName: 'Reserva',
       timestamps: false
     }
   }

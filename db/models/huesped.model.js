@@ -3,30 +3,37 @@ const {Model, DataTypes, Sequelize} = require('sequelize')
 const HUESPED_TABLE = 'huespedes';
 
 const HuespedSchema = {
-  id: {
-    allownull: false,
-    autoIncrement: true,
+  dni:{
+    type:DataTypes.INTEGER,
+    allowNull: false,
     primaryKey: true,
-    type: DataTypes.INTEGER,
+    unique: true
   },
   nombre: {
-    allowNull: false,
     type: DataTypes.STRING,
+    allowNull: false,
   },
   apellido: {
-    allowNull: false,
     type: DataTypes.STRING,
-  },
-  dni: {
     allowNull: false,
-    type: DataTypes.INTEGER,
   },
   fechaNacimiento: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATEONLY,
     field: 'fecha_nacimiento',
+    allowNull: false,
   },
   nacionalidad: {
     type: DataTypes.STRING,
+  },
+  Telefono:{
+    type: DataTypes.INTEGER,
+  },
+  email:{
+    type: DataTypes.INTEGER,
+    validate: {
+      isEmail: true,
+    },
+    unique: true
   },
 
 
@@ -35,6 +42,8 @@ const HuespedSchema = {
 class Huesped extends Model {
   static associate() {
     // asociaciones
+
+
   }
 
   static config(sequelize) {

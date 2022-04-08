@@ -1,17 +1,24 @@
 const joi = require('joi')
 
 const id = joi.string();
-const name = joi.string().alphanum().min(3).max(15);
-const price = joi.number().integer().min(150);
+const nombre = joi.string().min(3).max(15);
+const precio = joi.number().integer().min(150);
+const cantCamas = joi.number().integer();
+const comodidades = joi.string();
+const tipoHabitacion = joi.string();
 
 const crearHabitacionSchema = joi.object({
-  name: name.required(),
-  price: price.required(),
+  nombre: nombre.required(),
+  cantCamas: cantCamas.required(),
+  comodidades: comodidades.required(),
+  tipoHabitacion: tipoHabitacion.required(),
 });
 
 const actualizarHabitacionSchema = joi.object({
-  name: name,
-  price: price,
+  nombre: nombre,
+  cantCamas: cantCamas,
+  comodidades: comodidades,
+  tipoHabitacion: tipoHabitacion,
 });
 
 const getHabitacionSchema = joi.object({

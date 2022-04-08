@@ -36,6 +36,7 @@ validatorHandler(crearHabitacionSchema, 'body'),
 async (req, res)=>{
 try {
   const body = req.body
+  console.log('este es el body de crear---->', body)
   const nuevaHabitacion = await services.crear(body)
   res.status(201).json(nuevaHabitacion)
 } catch(error) {
@@ -51,6 +52,7 @@ async (req, res)=>{
     const { id } = req.params
     const idparse = parseInt(id, 10)
     const body = req.body
+    console.log('actualizando--->', body, id) 
     const habitacion = await services.actualizar(idparse,body)
     res.json(habitacion)
   } catch(error) {
@@ -64,7 +66,7 @@ async (req, res)=>{
     try {
       const { id } = req.params
     const idparse = parseInt(id, 10)
-    const habitacion = await services.borrar(idparse)
+    const habitacion = await services.borrar(id)
     res.json({
       message: habitacion
     })

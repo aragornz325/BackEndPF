@@ -9,20 +9,22 @@ const service = new UserService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const users = await service.find();
+    const users = await service.buscar();
     res.json(users);
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/:id',
+router.get('/:dni',
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const category = await service.findOne(id);
-      res.json(category);
+      const { dni } = req.params;
+      const dniparse = parseInt(dni,10)
+      console.log(dniparse)
+      const ususario = await service.buscaruno(dniparse);
+      res.json(ususario);
     } catch (error) {
       next(error);
     }
@@ -34,7 +36,7 @@ router.post('/',
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newCategory = await service.create(body);
+      const newCategory = await service.crear(body);
       res.status(201).json(newCategory);
     } catch (error) {
       next(error);
@@ -42,14 +44,14 @@ router.post('/',
   }
 );
 
-router.patch('/:id',
+router.patch('/:dni',
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { dni } = req.params;
       const body = req.body;
-      const category = await service.update(id, body);
+      const category = await service.actualizar(dni, body);
       res.json(category);
     } catch (error) {
       next(error);
@@ -57,13 +59,13 @@ router.patch('/:id',
   }
 );
 
-router.delete('/:id',
+router.delete('/:dni',
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      await service.delete(id);
-      res.status(201).json({id});
+      const { dni } = req.params;
+      await service.borrar(dni);
+      res.status(201).json({dni});
     } catch (error) {
       next(error);
     }

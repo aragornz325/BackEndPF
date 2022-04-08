@@ -1,8 +1,7 @@
-const Chance = require('chance');
-const boom = require('@hapi/boom')
-var chance = new Chance
-
+const boom = require('@hapi/boom');
+const { Habitacion } = require('../db/models/habitacion.model');
 const sequelize = require('../libs/sequelize')
+const { models } = require('./../libs/sequelize')
 
 
 class habitacionesService {
@@ -14,65 +13,40 @@ class habitacionesService {
 
   generar() {
 
-  for (let i = 0; i < 12; i++) {
-     this.habitaciones.push({
-        id: chance.integer({ min: 1, max: 100000 }),
-        name:chance.animal({type: 'farm'}),
-        price: chance.dollar({min: 125, max: 250}),
-
-      })
-  }
   }
 
   async crear(data) {
-
-    const nuevaHabitacion = {
-      id: chance.integer({ min: 1, max: 100 }),
-      ...data
-    }
-    this.habitaciones.push(nuevaHabitacion);
-    return nuevaHabitacion
-
+    const nuevaHabitacion = await models.Habitacion.create(data)
+    return nuevaHabitacion;
   }
 
   async buscar() {
-    const query = 'SELECT * FROM roles'
-    const [data] = await sequelize.query(query);
-    return data;
+    const rta = await models.Habitacion.findAll();
+    return rta
   }
 
   async buscaruno(id) {
-    const habitacion = this.habitaciones.find(item => item.id == id);
-    if (!habitacion) {
-      throw boom.notFound('no se encontro la habitacion')
+    const habiacion = await models.Habitacion.findByPk(id, );
+    if (!habiacion) {
+      throw boom.notFound('no existe la habitacion');
     }
-    return habitacion;
-
+    return habiacion;
   }
 
   async actualizar(id, cambios) {
-    const index = this.habitaciones.findIndex(item => item.id === id)
-
-    console.log(index)
-    if(index === -1) {
-      throw boom.notFound('habitacion no encontrada');
-    }else {
-    const habitacion = this.habitaciones[index];
-    this.habitaciones[index] = {
-      ... habitacion,
-      ... cambios,
-    }
-    return this.habitaciones[index];}
+    const habitacion = await this.findOne(id);
+    console.log(habitacion)
+    const rta = await habitacion.update(cambios);
+    return rta;
 
   }
 
   async borrar(id) {
-    const index = this.habitaciones.findIndex(item => item.id === id)
-    if(index === -1) {
-      throw boom.notFound('habitacion no encontrada');
-    }
-    this.habitaciones.splice(index, 1);
-    return `se elimino la habitacion ${id}`;
+    console.log(id)
+    const habitacion = await models.Habitacion.findOne(id);
+    console.log(habitacion)
+    await habitacion.destroy();
+    return { id };
 
   }
 

@@ -1,5 +1,7 @@
 const express = require('express')
 const habitacionesService = require('./../services/habitaciones.services')
+const validatorHandler = require('../middleware/validator.handler')
+const { crearHabitacionSchema, actualizarHabitacionSchema, getHabitacionSchema} = require('../schemas/habitaciones.schema')
 const router = express.Router()
 const services = new habitacionesService
 
@@ -14,7 +16,9 @@ router.get('/filter', (req, res)=>{
 
   });
 
-router.get('/:id', async (req, res)=>{
+router.get('/:id',
+validatorHandler(getHabitacionSchema, 'params'),
+async (req, res)=>{
   try {
     const {id} = req.params;
     const habitacion = await services.buscaruno(id);
@@ -27,7 +31,9 @@ router.get('/:id', async (req, res)=>{
 
   });
 
-router.post('/', async (req, res)=>{
+router.post('/',
+validatorHandler(crearHabitacionSchema, 'body'),
+async (req, res)=>{
 try {
   const body = req.body
   const nuevaHabitacion = await services.crear(body)
@@ -37,7 +43,10 @@ try {
 }
 });
 
-router.patch('/:id', async (req, res)=>{
+router.patch('/:id',
+validatorHandler(getHabitacionSchema, 'params'),
+validatorHandler(actualizarHabitacionSchema, 'body'),
+async (req, res)=>{
   try {
     const { id } = req.params
     const idparse = parseInt(id, 10)

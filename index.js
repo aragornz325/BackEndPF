@@ -1,43 +1,31 @@
 const express = require('express');
 const routerApi = require('./routes')
+const cors = require('cors')
 const { logErrors, errorHandler, boomErrorHandler } = require('./middleware/error.handler')
 
 const app = express();
 const port = 3005;
 
-app.use(express.json())
-
-app.get('/', (req, res)=>{
-
-    res.json('levantando server PF')
-
-});
-
-app.get('/home', (req, res)=>{
-
-  res.json({
-    name: 'soy el home'
-  })
-
-});
-
-app.get('/nueva-ruta', (req, res)=>{
-
-    res.send('hola, soy el nuevo endpoint')
-
-});
+app.use(express.json());
+const whitelist = ['http://localhost:8080', 'https://heroku.heroku.com' ]
+const option = {
+  origin: (origin, callback)=>{
+    if (whitelist.includes(origin)){
+      callback(null, true);
+    }else{
+      callback(new Error('origen no permitido - CORS -'));
+    }
+  }
+}
+app.use(cors()); /* en este momento esta dejando pasar todo*/
 
 
 
 routerApi(app);
 
-app.use(boomErrorHandler);
 app.use(logErrors);
+app.use(boomErrorHandler);
 app.use(errorHandler);
-
-
-
-
 
 
 app.listen(port, ()=>{

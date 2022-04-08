@@ -5,9 +5,9 @@ const USUARIO_TABLE = 'usuarios';
 const UsuarioSchema = {
   id: {
     allownull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataTypes.INTEGER,
+    primaryKey: true,        /*se puede cambiar pero siempre al crear hay que mandar el dni*/
+    type: DataTypes.UUID,     /* ver el tema del DNI... no se si esta bien que sea el ID*/
+    defaultValue: DataTypes.UUIDV4,  
   },
   password: {
     allowNull: false,
@@ -29,6 +29,11 @@ const UsuarioSchema = {
     allowNull: false,
     type: DataTypes.STRING,
     unique: true,
+  },
+  tipoUsuario: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    field: 'tipo_usuario',
   },
   createdAt: {
     allowNull: false,

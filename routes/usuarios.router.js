@@ -1,23 +1,73 @@
-const express = require('express')
-const Chance = require('chance');
-const router = express.Router()
+const express = require('express');
 
+const UserService = require('../services/usuarios.services');
+const validatorHandler = require('../middleware/validator.handler');
+const { updateUserSchema, createUserSchema, getUserSchema } = require('../schemas/usuario.schema');
 
-var chance = new Chance
+const router = express.Router();
+const service = new UserService();
 
-router.get('/usuarios', (req, res)=> {
-
-  const { limit, offset } = req.query;
-  if(limit & offset) {
-    res.json({
-      limit,
-      offset
-    })
-  }else {
-    res.send('no hay parametros');
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await service.find();
+    res.json(users);
+  } catch (error) {
+    next(error);
   }
+});
 
+router.get('/:id',
+  validatorHandler(getUserSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const category = await service.findOne(id);
+      res.json(category);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-})
+router.post('/',
+  validatorHandler(createUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newCategory = await service.create(body);
+      res.status(201).json(newCategory);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-module.exports = router
+router.patch('/:id',
+  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(updateUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const category = await service.update(id, body);
+      res.json(category);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete('/:id',
+  validatorHandler(getUserSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await service.delete(id);
+      res.status(201).json({id});
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+module.exports = router;

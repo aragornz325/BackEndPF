@@ -2,12 +2,14 @@ const Chance = require('chance');
 const boom = require('@hapi/boom')
 var chance = new Chance
 
+const sequelize = require('../libs/sequelize')
 
 
 class habitacionesService {
     constructor() {
       this.habitaciones = [];
       this.generar();
+
     }
 
   generar() {
@@ -34,7 +36,9 @@ class habitacionesService {
   }
 
   async buscar() {
-    return this.habitaciones
+    const query = 'SELECT * FROM roles'
+    const [data] = await sequelize.query(query);
+    return data;
   }
 
   async buscaruno(id) {
